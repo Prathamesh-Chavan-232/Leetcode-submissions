@@ -68,15 +68,30 @@ const double PI = 3.1415926535897932384626;
 vi graph[N]; // For Adjacency List
 
 /*
-    Link -
-    Problem -
-    Difficulty -
-    contest -
-    Status -
-    Date -
+    Link - https://leetcode.com/problems/subsets/
+    Problem - Generate all possible subsets of a given set
+    Difficulty - Medium
+    Topic - Recursion & backtracking
+    Status - Solved
+    Date - 13/5/22
 */
 /*  Approach -
+        There are 2 choices for each element either we it is present in the sub-set, 
+        or it isnt present.
 
+        Back tracking step -
+            Therefore after adding an element to the set, we make a recursive call for the modified set 
+            Then, we pop that element and make a recursive call again (This is the element not added case)
+
+        E.g. -> S = [1,2] subsets = [[],[1],[2],[1,2]];
+        
+         []   ------> Starting from null set
+       /    \
+    [1]      [] --------> Add/ Dont add - 1
+  /    \    /  \
+[1,2]  [1] [2]  [] --------> Add/ Dont add - 2
+
+After traversing all the elements we will find all possible subsets
 */
 
 class Solution
@@ -103,3 +118,45 @@ public:
         return res;
     }
 };
+int main()
+{
+    // Start time
+    auto start = chrono::steady_clock::now();
+
+    // fast io
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+// Input, Output & error messages inside text files
+#ifndef ONLINE_JUDGE
+    freopen("C:/Prathamesh/Programming/input.txt", "r", stdin);
+    freopen("C:/Prathamesh/Programming/output.txt", "w", stdout);
+    freopen("C:/Prathamesh/Programming/err.txt", "w", stderr);
+#endif
+
+    Solution s;
+    int n;
+    read(n);
+    vi nums(n);
+    fo(i, n) read(nums[i]);
+    vvi res = s.subsets(nums); // store return value
+    cout << "{ ";
+    for (vi vec : res)
+    {
+        cout << "[ ";
+        for (int val : vec)
+        {
+            cout << val << " ";
+        }
+        cout << "] ";
+    }
+    cout << " }";
+
+// Calculating Runtime
+#ifndef ONLINE_JUDGE
+    auto end = chrono::steady_clock::now();
+    auto diff = end - start;
+    cerr << "[Finished in " << setprecision(3) << chrono::duration<double, milli>(diff).count() << " ms]\n";
+#endif
+    return 0;
+}
