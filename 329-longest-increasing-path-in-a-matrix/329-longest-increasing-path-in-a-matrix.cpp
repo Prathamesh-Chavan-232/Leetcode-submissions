@@ -115,8 +115,8 @@ public:
     {
         maxPath = 0, n = size(matrix), m = size(matrix[0]);
         dp.resize(n, vector<int>(m));
-        for (int i = 0; i < n; i++)
-            for (int j = 0; j < m; j++)
+        fo(i, n)
+            fo(j, m)
                 maxPath = max(maxPath, dfs(matrix, i, j));
         return maxPath;
     }
