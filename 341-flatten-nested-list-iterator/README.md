@@ -10,29 +10,29 @@
 
 <p>Your code will be tested with the following pseudocode:</p>
 
-<pre style="position: relative;">initialize iterator with nestedList
+<pre>initialize iterator with nestedList
 res = []
 while iterator.hasNext()
     append iterator.next() to the end of res
 return res
-<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+</pre>
 
 <p>If <code>res</code> matches the expected flattened list, then your code will be judged as correct.</p>
 
 <p>&nbsp;</p>
 <p><strong>Example 1:</strong></p>
 
-<pre style="position: relative;"><strong>Input:</strong> nestedList = [[1,1],2,[1,1]]
+<pre><strong>Input:</strong> nestedList = [[1,1],2,[1,1]]
 <strong>Output:</strong> [1,1,2,1,1]
 <strong>Explanation:</strong> By calling next repeatedly until hasNext returns false, the order of elements returned by next should be: [1,1,2,1,1].
-<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+</pre>
 
 <p><strong>Example 2:</strong></p>
 
-<pre style="position: relative;"><strong>Input:</strong> nestedList = [1,[4,[6]]]
+<pre><strong>Input:</strong> nestedList = [1,[4,[6]]]
 <strong>Output:</strong> [1,4,6]
 <strong>Explanation:</strong> By calling next repeatedly until hasNext returns false, the order of elements returned by next should be: [1,4,6].
-<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+</pre>
 
 <p>&nbsp;</p>
 <p><strong>Constraints:</strong></p>
