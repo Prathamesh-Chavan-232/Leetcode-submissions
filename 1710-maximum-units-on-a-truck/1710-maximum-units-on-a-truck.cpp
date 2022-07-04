@@ -83,9 +83,53 @@ bool vis[N];
 */
 /*  Approach -
 
+    Approach 1: (Brute Force) O(NlogN)
+        Sorting the List -
+            The given boxTypes will be sorted in descending order depending on the units,
+            and then we simply loop through the boxTypes and take boxes equal to truckSize.
+
+
+    Approach 1: (Optimal) O(N)
+        Counting/Bucket sort -
+            In this approach, we know that the number of units will not exceed 1000,
+            so we create an array to store all the boxes with the given units.
+
+            Eg. boxes with 1 unit will be stored at index 1 in the array
+            To iterate through the boxTypes and add the boxes in the given units placed in the array. After that loop through 1000 to 0 and pick up the boxes till the truck is full.
+
+            We are looping through the array from the highest unit boxes to the lowest ones.
 */
 
+// Optimal
 class Solution
+{
+public:
+    int maximumUnits(vector<vector<int>> &boxTypes, int truckSize)
+    {
+        int n = 1000, maxUnits = 0;
+        vi bucket(1001, 0);
+        for (auto &box : boxTypes)
+        {
+            bucket[box[1]] += box[0];
+        }
+        Fo(i, n, 0)
+        {
+            if (truckSize <= 0)
+                break;
+
+            if (bucket[i] == 0)
+                continue;
+
+            int boxes = bucket[i], units = i;
+            debug(boxes, units);
+            maxUnits += min(boxes, truckSize) * units;
+            truckSize -= boxes;
+        }
+        return maxUnits;
+    }
+};
+// Brute force
+class Solution2
 {
 public:
     int maximumUnits(vector<vector<int>> &boxTypes, int truckSize)
