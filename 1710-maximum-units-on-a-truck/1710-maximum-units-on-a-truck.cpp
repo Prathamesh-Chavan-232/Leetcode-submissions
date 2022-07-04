@@ -1,27 +1,116 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+// Shortening syntax
+#define ll long long
+#define fo(i, n) for (ll i = 0; i < n; ++i)
+#define Fo(i, k, n) for (ll i = k; k < n ? i < n : i > n; k < n ? ++i : --i)
+#define pb push_back
+#define mp make_pair
+#define pq_max priority_queue<int>                            // max heap
+#define pq_min priority_queue<int, vector<int>, greater<int>> // min heap
+#define all(x) x.begin(), x.end()
+#define clr(x) memset(x, 0, sizeof(x))
+#define foreach(it, a) for (auto it = a.begin(); it != a.end(); it++)
+#define formap(m) for (auto [key, value] : m)
+mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
+
+// Typdefs for containers
+typedef pair<int, int> pii;
+typedef pair<ll, ll> pl;
+typedef vector<int> vi;
+typedef vector<ll> vl;
+typedef vector<pii> vpii;
+typedef vector<pl> vpl;
+typedef vector<vi> vvi;
+typedef vector<vl> vvl;
+
+// Varidiac Variable debugger
+#ifndef ONLINE_JUDGE
+#define debug(...) logger(#__VA_ARGS__, __VA_ARGS__)
+#else
+#define debug(...)
+#endif
+template <typename... Args>
+void logger(string varname, Args &&...values) // logger for varadiac debugging print statements
+{
+
+    cerr << varname << " =";
+    string delim = " ";
+    (..., (cerr << delim << values, delim = ", "));
+    cerr << "\n";
+}
+
+// STL vector / set (of any type) debugger
+#ifndef ONLINE_JUDGE
+#define debcon(x)        \
+    cerr << #x << " = "; \
+    _print(x);           \
+    cerr << "\n";
+#else
+#define debcon(x)
+#endif
+template <typename T>
+void _print(T const &c)
+{
+    cerr << "{ ";
+    foreach (it, c)
+    {
+        cerr << *it << ", ";
+    }
+    cerr << "}";
+}
+
+// Function definitions
+void Add_edge(int v1, int v2);
+void dfs(int vertex);
+
+// constants
+const int mod = 1'000'000'007;
+const int N = 1e5 + 10, M = N;
+const double PI = 3.1415926535897932384626;
+
+vpii graph[N]; // For Adjacency List
+bool vis[N];
+
+/*
+    Link -
+    Problem -
+    Difficulty -
+    topic -
+    Status -
+    Date -
+*/
+/*  Approach -
+
+*/
+
 class Solution
 {
-    public:
-        int maximumUnits(vector<vector < int>> &boxes, int truckSize)
+public:
+    int maximumUnits(vector<vector<int>> &boxTypes, int truckSize)
+    {
+        priority_queue<pii> pq;
+        int n = boxTypes.size();
+        int res = 0;
+        while (truckSize)
         {
-           	// support variables
-            int res = 0, sizeBucket[1001] = {}, maxBucket = INT_MIN, minBucket = INT_MAX;
-           	// bucket sorting tthe boxes and recording the bucket range
-            for (auto &boxType: boxes)
+            int max_unit = 0;
+            Fo(i, 1, n)
             {
-                maxBucket = max(maxBucket, boxType[1]);
-                minBucket = min(minBucket, boxType[1]);
-                sizeBucket[boxType[1]] += boxType[0];
+                if (boxTypes[i][1] > boxTypes[max_unit][1])
+                {
+                    max_unit = i;
+                }
             }
-           	// carrying as many larger sized boxes as we can first
-            for (int i = maxBucket, size, currBatch; i >= minBucket; i--)
-            {
-                size = sizeBucket[i];
-                if (!size) continue;
-                currBatch = min(size, truckSize);
-                truckSize -= currBatch;
-                res += currBatch * i;
-                if (!truckSize) break;
-            }
-            return res;
+            int boxes = boxTypes[max_unit][0], &units = boxTypes[max_unit][1];
+            debug(boxes, units);
+            if (boxes > truckSize)
+                boxes = truckSize;
+            res += (boxes * units);
+            truckSize -= boxes;
+            units = 0;
         }
+        return res;
+    }
 };
