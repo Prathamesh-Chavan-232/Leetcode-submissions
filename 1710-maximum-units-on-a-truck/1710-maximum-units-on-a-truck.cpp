@@ -90,26 +90,15 @@ class Solution
 public:
     int maximumUnits(vector<vector<int>> &boxTypes, int truckSize)
     {
-        priority_queue<pii> pq;
-        int n = boxTypes.size();
         int res = 0;
-        while (truckSize)
+        sort(all(boxTypes), [](auto a, auto b)
+             { return a[1] > b[1]; });
+        for (auto &box : boxTypes)
         {
-            int max_unit = 0;
-            Fo(i, 1, n)
-            {
-                if (boxTypes[i][1] > boxTypes[max_unit][1])
-                {
-                    max_unit = i;
-                }
-            }
-            int boxes = boxTypes[max_unit][0], &units = boxTypes[max_unit][1];
-            debug(boxes, units);
-            if (boxes > truckSize)
-                boxes = truckSize;
-            res += (boxes * units);
-            truckSize -= boxes;
-            units = 0;
+            if (truckSize <= 0)
+                break;
+            res += min(truckSize, box[0]) * box[1];
+            truckSize -= box[0];
         }
         return res;
     }
