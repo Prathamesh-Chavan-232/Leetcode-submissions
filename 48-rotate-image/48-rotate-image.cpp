@@ -99,24 +99,54 @@ vpii graph[N]; // For Adjacency List
 bool vis[N];
 
 /*
-    Link -
-    Problem -
-    Difficulty -
-    topic -
-    Status -
-    Date -
+    Link - https://leetcode.com/problems/rotate-image/
+    Problem - SDE sheet Day 2
+    Difficulty - medium
+    Topic - Arrays
+    Status - Solved
+    Date - 24/7/22
 */
 /*  Approach -
+        Brute force - T.C - O(n^2) S.C - O(n^2)
+            Create a 2nd matrix rotated of the same size and assign the 1st row of matrix to last column of rotated,
+            2nd row to 2nd last column and so on...
+
+        Better - T.C - O(n^2) S.C - O(1)
+            By observation we can see that the result required can be obtained by reversing each row of the transpose matrix
+            We will do the transpose in-place
 
 */
 
 class Solution
 {
 public:
+    // Optimal
     void rotate(vector<vector<int>> &matrix)
     {
         int n = matrix.size();
-        vvi rotated(n, vector<int>(n, 0));
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = i + 1; j < n; ++j)
+            {
+                swap(matrix[i][j], matrix[j][i]);
+            }
+        }
+        for (int i = 0; i < n; ++i)
+        {
+            reverse(all(matrix[i]));
+        }
+    }
+};
+class Solution1
+{
+public:
+    // Brute force
+    void rotate(vector<vector<int>> &matrix)
+    {
+        int n = matrix.size();
+        vvi rotated(n, vi(n, 0));
+
+        // Rotating the matrix
         for (int i = 0; i < n; i++)
         {
             for (int j = 0; j < n; j++)
@@ -124,6 +154,7 @@ public:
                 rotated[j][n - 1 - i] = matrix[i][j];
             }
         }
+        // Assigning the changed values to original matrix
         for (int i = 0; i < n; i++)
         {
             for (int j = 0; j < n; j++)
