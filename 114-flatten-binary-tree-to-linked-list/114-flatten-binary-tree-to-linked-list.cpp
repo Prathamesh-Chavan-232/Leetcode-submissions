@@ -7,13 +7,13 @@ using namespace std;
 #define Fo(i, k, n) for (ll i = k; k < n ? i < n : i > n; k < n ? ++i : --i)
 #define pb push_back
 #define mp make_pair
-#define pqb priority_queue < int>
-#define pqs priority_queue<int, vector < int>, greater < int>>
+#define pqb priority_queue<int>
+#define pqs priority_queue<int, vector<int>, greater<int>>
 #define all(x) x.begin(), x.end()
 #define clr(x) memset(x, 0, sizeof(x))
 #define foreach(it, a) for (auto it = a.begin(); it != a.end(); it++)
-#define formap(m) for (auto[key, value]: m)
-        mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
+#define formap(m) for (auto [key, value] : m)
+mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
 
 // Typdefs for containers
 typedef pair<int, int> pii;
@@ -42,7 +42,7 @@ void inVec(vector<int> &v)
             v.push_back(num), num = 0;
         else
         {
-            num = num *10 + (s[i] - '0');
+            num = num * 10 + (s[i] - '0');
             num *= sign;
             sign = 1;
         }
@@ -56,8 +56,8 @@ void inVec(vector<int> &v)
 #else
 #define debug(...)
 #endif
-template < typename...Args >
-    void logger(string varname, Args && ...values)	// logger for varadiac debugging print statements
+template <typename... Args>
+void logger(string varname, Args &&...values) // logger for varadiac debugging print statements
 {
 
     cerr << varname << " =";
@@ -68,24 +68,23 @@ template < typename...Args >
 
 // STL vector / set (of any type) debugger
 #ifndef ONLINE_JUDGE
-#define debcon(x)\
-cerr << #x << " = ";\
-_print(x);\
-cerr << "\n";
+#define debcon(x)        \
+    cerr << #x << " = "; \
+    _print(x);           \
+    cerr << "\n";
 #else
 #define debcon(x)
 #endif
-template < typename T>
-    void _print(T
-        const &c)
+template <typename T>
+void _print(T const &c)
+{
+    cerr << "{ ";
+    foreach (it, c)
     {
-        cerr << "{ ";
-        foreach(it, c)
-        {
-            cerr << *it << ", ";
-        }
-        cerr << "}";
+        cerr << *it << ", ";
     }
+    cerr << "}";
+}
 
 // Function definitions
 void Add_edge(int v1, int v2);
@@ -93,11 +92,10 @@ void dfs(int vertex);
 
 // constants
 const int mod = 1000000007;
-const int N = 1e5 + 10,
-    M = N;
+const int N = 1e5 + 10, M = N;
 const double PI = 3.1415926535897932384626;
 
-vpii graph[N];	// For Adjacency List
+vpii graph[N]; // For Adjacency List
 bool vis[N];
 
 /*
@@ -108,7 +106,7 @@ bool vis[N];
     Status -
     Date -
 */
-/*Approach -
+/*  Approach -
 
 */
 
@@ -117,27 +115,30 @@ bool vis[N];
 // struct TreeNode
 // {
 //     int val;
-//     TreeNode * left;
-//     TreeNode * right;
-//     TreeNode(): val(0), left(nullptr), right(nullptr) {}
-//     TreeNode(int x): val(x), left(nullptr), right(nullptr) {}
-//     TreeNode(int x, TreeNode *left, TreeNode *right): val(x), left(left), right(right) {}
+//     TreeNode *left;
+//     TreeNode *right;
+//     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+//     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+//     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 // };
 class Solution
 {
-    public:
-        void flatten(TreeNode *root)
-        {
-            TreeNode *curr = root;
-            while (curr)
-            {
-                if (curr->left)
-                {
-                    TreeNode *runner = curr->left;
-                    while (runner->right != nullptr) runner = runner->right;
-                    runner->right = curr->right, curr->right = curr->left, curr->left = nullptr;
-                }
-                curr = curr->right;
-            }
-        }
+public:
+    void flatten(TreeNode *root)
+    {
+        if (root == NULL)
+            return;
+        TreeNode *tempLeft = root->left;
+        TreeNode *tempRight = root->right;
+        root->left = NULL;
+
+        flatten(tempLeft);
+        flatten(tempRight);
+
+        root->right = tempLeft;
+        TreeNode *curr = root;
+        while (curr->right != NULL)
+            curr = curr->right;
+        curr->right = tempRight;
+    }
 };
