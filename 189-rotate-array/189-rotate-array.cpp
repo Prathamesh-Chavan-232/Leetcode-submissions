@@ -24,30 +24,6 @@ typedef vector<vl> vvl;
 typedef priority_queue<int> pqb;
 typedef priority_queue<int, vector<int>, greater<int>> pqs;
 
-// Container input tools
-void inVec(vector<int> &v)
-{
-    string s;
-    getline(cin, s);
-    int num = 0, sign = 1;
-
-    for (int i = 0; i < s.size(); ++i)
-    {
-        if (s[i] == '[' || s[i] == ']')
-            continue;
-        if (s[i] == '-')
-            sign = -1;
-        else if (s[i] == ',' || s[i] == ' ')
-            v.push_back(num), num = 0;
-        else
-        {
-            num = num * 10 + (s[i] - '0');
-            num *= sign;
-            sign = 1;
-        }
-    }
-    v.push_back(num);
-}
 
 // Varidiac Variable debugger
 #ifndef ONLINE_JUDGE
@@ -100,7 +76,14 @@ BinTree *createTree(vector<int> &nodes);
 
 /**
  * @brief
- *
+ **APPROACH 1 :
+ If k>=n do k = k%n
+
+ **APPROACH 2 : Reversal of array
+
+ *   Reverse the whole array.
+ *   Then reverse the first k elements.
+ *   Finally reverse the remaining elements.
  */
 // classes & functions
 class Solution
@@ -109,15 +92,12 @@ public:
     void rotate(vector<int> &nums, int k)
     {
         int n = nums.size();
-        if (k % n == 0 && k > n)
+        if (k > n)
         {
+            k = k % n;
+        }
+        if (k == 0)
             return;
-        }
-        while (k >= n)
-        {
-            debug(k);
-            k = k - n;
-        }
         debug(k, n);
         int r = n - k;
         int l = 0;
@@ -133,4 +113,15 @@ public:
         debcon(res);
         nums = res;
     }
+    class Solution2
+    {
+    public:
+        void rotate(vector<int> &nums, int k)
+        {
+            k = k % nums.size();
+            reverse(nums.begin(), nums.end());
+            reverse(nums.begin(), nums.begin() + k);
+            reverse(nums.begin() + k, nums.end());
+        }
+    };
 };
