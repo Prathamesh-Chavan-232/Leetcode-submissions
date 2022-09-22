@@ -12,7 +12,7 @@ typedef vector<ll> vl;
 
 /**
  * @brief- Given a sorted array with both negative & positive numbers,
- *         Return a array with a
+ *         Return a array with every sqaured and maintain the sorted order
  *
  */
 // classes & functions
