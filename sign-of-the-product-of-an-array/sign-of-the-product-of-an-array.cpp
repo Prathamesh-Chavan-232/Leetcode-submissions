@@ -2,16 +2,15 @@ class Solution {
 public:
 int arraySign(vector<int>& nums) {
         int n = nums.size();
-        int pr = 1;
+        int negatives = 0;
         for(int i = 0; i < n; i++) {
             if(nums[i] == 0) {
-                pr = 0;
-                break;
+                return 0;
             }
             else if(nums[i] < 1) {
-                pr = pr * -1;
+                negatives++;
             }
         }
-        return pr;
+        return negatives % 2 == 0 ? 1 : -1;
     }
 };
