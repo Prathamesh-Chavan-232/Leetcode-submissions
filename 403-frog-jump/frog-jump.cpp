@@ -1,46 +1,40 @@
 class Solution {
 public:
-    unordered_map<int, int> m;
-    int dp[2000][2000];
-
-    int solve(int i, int k, vector<int>& stones) {
-        if (i == stones.size() - 1) {
+    map<int, int> stonePositions;
+    map<pair<int, int>, bool> dp;
+    bool canJump(vector<int>& stones, int pos, int k) {
+        int lastPos = stones[stones.size() - 1];
+        if (pos == lastPos)
             return true;
+        if (k <= 0 || pos > lastPos)
+            return false;
+        if (dp.find({pos, k}) != dp.end()) {
+            return dp[{pos, k}];
         }
-        
-        if (dp[i][k] != -1) {
-            return dp[i][k];
-        }
+        if (stonePositions[pos] == 1)
+            return dp[{pos, k}] = canJump(stones, pos + k - 1, k - 1) ||
+                                  canJump(stones, pos + k, k) ||
+                                  canJump(stones, pos + k + 1, k + 1);
 
-        bool k0 = false;
-        bool kp = false;
-        bool k1 = false;
-
-        if (m.find(stones[i] + k) != m.end()) {
-            k0 = solve(m[stones[i] + k], k, stones);
-        }
-        if (k > 1 && m.find(stones[i] + k - 1) != m.end()) {
-            kp = solve(m[stones[i] + k - 1], k - 1, stones);
-        }
-        if (m.find(stones[i] + k + 1) != m.end()) {
-            k1 = solve(m[stones[i] + k + 1], k + 1, stones);
-        }
-
-        dp[i][k] = k0 || kp || k1;
-        return dp[i][k];
+        return dp[{pos, k}] = false;
     }
 
     bool canCross(vector<int>& stones) {
-        if (stones[1] - stones[0] != 1) {
-            return false;
+        if (stones[1] != 1)
+            return false; 
+        for(auto stone : stones) {
+            stonePositions[stone] = 1;
         }
-
-        for (int i = 0; i < stones.size(); i++) {
-            m[stones[i]] = i;
-        }
-        
-        memset(dp, -1, sizeof(dp));
-
-        return solve(1, 1, stones);
+        return canJump(stones, 1, 1);
     }
 };
+
+/*
+
+0 -> 1 :- max 2 units -> 3 :- 1,2,3 -> 6 :- 2,3,4 -> 8 :- 1,2,3 -> stuck
+0 -> 1 :- 0,1,2 -> 3 :- 1,2,3 -> 5 :- 1,2,3 -> 8 :- 2,3,4 -> 12 -> 3,4,5 -> 17
+-> pass
+
+for each jump we have check if we can make it, recursively
+
+*/
